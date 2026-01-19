@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/ManderTheMan/human-ai-governance-architecture/schemas/eligibility-capsule.schema.json",
+  "title": "Eligibility Capsule",
+  "description": "A cryptographically sealed data structure containing authorization context and constraints",
+  "type": "object",
+  "required": [
+    "id",
+    "action",
+    "context",
+    "constraints",
+    "timestamp",
+    "signature"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the capsule",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "action": {
+      "type": "object",
+      "description": "The action being authorized",
+      "required": ["type", "target"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of action",
+          "enum": ["read", "write", "execute", "delete", "modify"]
+        },
+        "target": {
+          "type": "string",
+          "description": "Target resource or entity"
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Action-specific parameters"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Authorization context",
+      "required": ["requester", "timestamp"],
+      "properties": {
+        "requester": {
+          "type": "string",
+          "description": "Entity requesting authorization"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When authorization was requested"
+        },
+        "environment": {
+          "type": "object",
+          "description": "Environmental context"
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "description": "Constraints on authorization",
+      "properties": {
+        "expiry": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When authorization expires"
+        },
+        "max_uses": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of times capsule can be used"
+        },
+        "conditions": {
+          "type": "array",
+          "description": "Additional conditions that must be met",
+          "items": {
+            "type": "object",
+            "required": ["type", "value"],
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": ["string", "number", "boolean", "object"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Capsule creation timestamp"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Cryptographic signature of capsule contents",
+      "pattern": "^[a-f0-9]{128}$"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Schema version"
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Entity that issued the capsule"
+        }
+      }
+    }
+  }
+}

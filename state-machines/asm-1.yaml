@@ -1,0 +1,399 @@
+name: ASM-1
+description: Alignment State Machine - Level 1
+version: 1.0.0
+
+states:
+  - name: Initial
+    description: Starting state
+    type: initial
+    invariants:
+      - no_active_capsules
+      - no_active_tokens
+
+  - name: Authorization_Requested
+    description: Authorization has been requested
+    type: intermediate
+    invariants:
+      - valid_capsule_exists
+      - capsule_not_expired
+
+  - name: Authorization_Granted
+    description: Authorization token issued
+    type: intermediate
+    invariants:
+      - valid_token_exists
+      - token_not_expired
+      - valid_signature
+
+  - name: Execution_Started
+    description: Action execution begun
+    type: intermediate
+    invariants:
+      - token_authorizes_action
+      - token_not_revoked
+
+  - name: Heart_Check
+    description: Human values alignment check
+    type: checkpoint
+    invariants:
+      - human_oversight_available
+
+  - name: Gut_Check
+    description: Intuitive wisdom evaluation
+    type: checkpoint
+    invariants:
+      - human_can_respond
+
+  - name: Execution_Completed
+    description: Action successfully completed
+    type: final
+    invariants:
+      - trace_event_recorded
+      - action_completed
+
+  - name: Blocked
+    description: Action blocked by safety mechanism
+    type: final
+    invariants:
+      - block_reason_recorded
+
+  - name: Denied
+    description: Authorization denied
+    type: final
+    invariants:
+      - denial_reason_recorded
+
+  - name: Recovery
+    description: System in recovery mode
+    type: error
+    invariants:
+      - recovery_plan_active
+      - affected_systems_halted
+
+transitions:
+  - from: Initial
+    to: Authorization_Requested
+    event: create_capsule
+    guards:
+      - valid_capsule_format
+      - authorized_requester
+    actions:
+      - record_event
+      - validate_capsule
+
+  - from: Authorization_Requested
+    to: Authorization_Granted
+    event: approve_token
+    guards:
+      - can_authorize
+      - capsule_valid
+    actions:
+      - generate_token
+      - record_event
+
+  - from: Authorization_Requested
+    to: Denied
+    event: deny_request
+    guards: []
+    actions:
+      - record_denial
+      - record_event
+
+  - from: Authorization_Granted
+    to: Execution_Started
+    event: begin_execution
+    guards:
+      - can_execute
+      - token_valid
+    actions:
+      - start_action
+      - record_event
+
+  - from: Authorization_Granted
+    to: Denied
+    event: revoke_token
+    guards: []
+    actions:
+      - revoke_authorization
+      - record_event
+
+  - from: Execution_Started
+    to: Heart_Check
+    event: critical_decision
+    guards:
+      - requires_heart_check
+    actions:
+      - notify_human
+      - record_event
+
+  - from: Execution_Started
+    to: Gut_Check
+    event: subtle_implications
+    guards:
+      - requires_gut_check
+    actions:
+      - notify_human
+      - record_event
+
+  - from: Execution_Started
+    to: Execution_Completed
+    event: simple_action
+    guards:
+      - all_checks_passed
+    actions:
+      - complete_action
+      - record_event
+
+  - from: Heart_Check
+    to: Gut_Check
+    event: heart_aligned
+    guards: []
+    actions:
+      - record_event
+
+  - from: Heart_Check
+    to: Blocked
+    event: heart_block
+    guards: []
+    actions:
+      - halt_systems
+      - record_block
+      - record_event
+
+  - from: Heart_Check
+    to: Execution_Completed
+    event: override_and_proceed
+    guards:
+      - human_override_authorized
+    actions:
+      - complete_action
+      - record_event
+
+  - from: Gut_Check
+    to: Execution_Completed
+    event: gut_aligned
+    guards: []
+    actions:
+      - complete_action
+      - record_event
+
+  - from: Gut_Check
+    to: Blocked
+    event: gut_veto
+    guards: []
+    actions:
+      - halt_systems
+      - record_block
+      - record_event
+
+  - from: Execution_Completed
+    to: Initial
+    event: reset
+    guards: []
+    actions:
+      - cleanup
+      - record_event
+
+  - from: Blocked
+    to: Recovery
+    event: escalate_block
+    guards: []
+    actions:
+      - initiate_recovery
+      - record_event
+
+  - from: Blocked
+    to: Initial
+    event: acknowledge_block
+    guards: []
+    actions:
+      - cleanup
+      - record_event
+
+  - from: Denied
+    to: Initial
+    event: acknowledge_denial
+    guards: []
+    actions:
+      - cleanup
+      - record_event
+
+  - from: Recovery
+    to: Initial
+    event: recovery_complete
+    guards:
+      - recovery_successful
+    actions:
+      - restore_state
+      - record_event
+
+guards:
+  can_authorize:
+    description: Check if approver has sufficient authority
+    conditions:
+      - approver.authority_level >= required_authority_level
+      - capsule.constraints_satisfied
+      - no_conflicting_authorizations
+
+  can_execute:
+    description: Check if action can be executed
+    conditions:
+      - token.valid
+      - not token.expired
+      - not token.revoked
+      - token.scope.includes(action)
+
+  requires_heart_check:
+    description: Determine if heart check is needed
+    conditions:
+      - action.impacts_human_wellbeing
+      - action.has_ethical_implications
+      - action.is_irreversible
+
+  requires_gut_check:
+    description: Determine if gut check is needed
+    conditions:
+      - action.has_complex_effects
+      - action.is_ambiguous
+      - human_intuition_valuable
+
+  all_checks_passed:
+    description: All safety checks passed
+    conditions:
+      - no_heart_check_required
+      - no_gut_check_required
+      - action_authorized
+
+  human_override_authorized:
+    description: Human can override heart check
+    conditions:
+      - human.authority_level >= override_threshold
+      - override_reason_provided
+
+  recovery_successful:
+    description: Recovery completed successfully
+    conditions:
+      - invariants_restored
+      - systems_operational
+
+actions:
+  record_event:
+    description: Record trace event
+    implementation: trace.append_event
+
+  validate_capsule:
+    description: Validate eligibility capsule
+    implementation: capsule.validate_schema
+
+  generate_token:
+    description: Generate authorization token
+    implementation: token.generate
+
+  record_denial:
+    description: Record denial reason
+    implementation: trace.record_denial
+
+  start_action:
+    description: Begin action execution
+    implementation: executor.start
+
+  revoke_authorization:
+    description: Revoke authorization token
+    implementation: token.revoke
+
+  notify_human:
+    description: Notify human operator
+    implementation: notifier.send
+
+  complete_action:
+    description: Complete action execution
+    implementation: executor.complete
+
+  halt_systems:
+    description: Halt affected systems
+    implementation: system.halt
+
+  record_block:
+    description: Record block reason
+    implementation: trace.record_block
+
+  cleanup:
+    description: Clean up state
+    implementation: state.cleanup
+
+  initiate_recovery:
+    description: Start recovery process
+    implementation: recovery.initiate
+
+  restore_state:
+    description: Restore system state
+    implementation: recovery.restore
+
+invariants:
+  no_active_capsules:
+    description: No capsules in system
+    check: capsule_count == 0
+
+  no_active_tokens:
+    description: No tokens in system
+    check: token_count == 0
+
+  valid_capsule_exists:
+    description: Valid capsule present
+    check: capsule != null && capsule.valid
+
+  capsule_not_expired:
+    description: Capsule not expired
+    check: capsule.timestamp < expiry
+
+  valid_token_exists:
+    description: Valid token present
+    check: token != null && token.valid
+
+  token_not_expired:
+    description: Token not expired
+    check: current_time < token.expires_at
+
+  valid_signature:
+    description: Signature is valid
+    check: verify_signature(token.signature)
+
+  token_authorizes_action:
+    description: Token authorizes this action
+    check: token.scope.includes(action)
+
+  token_not_revoked:
+    description: Token not revoked
+    check: not token.revoked
+
+  human_oversight_available:
+    description: Human can provide oversight
+    check: human_operator.available
+
+  human_can_respond:
+    description: Human can respond
+    check: human_operator.can_respond
+
+  trace_event_recorded:
+    description: Event in trace
+    check: trace.contains(event)
+
+  action_completed:
+    description: Action finished
+    check: action.status == "completed"
+
+  block_reason_recorded:
+    description: Block reason in trace
+    check: trace.contains(block_reason)
+
+  denial_reason_recorded:
+    description: Denial reason in trace
+    check: trace.contains(denial_reason)
+
+  recovery_plan_active:
+    description: Recovery plan running
+    check: recovery.plan != null && recovery.plan.active
+
+  affected_systems_halted:
+    description: Affected systems stopped
+    check: all(system.halted for system in affected_systems)

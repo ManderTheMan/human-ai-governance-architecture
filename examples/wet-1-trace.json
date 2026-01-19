@@ -1,0 +1,178 @@
+{
+  "trace_id": "wet-1-00001",
+  "description": "Wisdom Execution Trace - Level 1 - Complete flow with heart and gut checks",
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000000001",
+      "event_type": "capsule_created",
+      "timestamp": "2026-01-19T00:00:00.000Z",
+      "sequence": 0,
+      "data": {
+        "actor": "ai-agent-alpha",
+        "action": "create_eligibility_capsule",
+        "outcome": "success",
+        "details": {
+          "capsule_id": "cap-00001",
+          "action_type": "write",
+          "target": "database.users.preferences"
+        }
+      },
+      "capsule_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1"
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000000002",
+      "event_type": "token_granted",
+      "timestamp": "2026-01-19T00:00:05.000Z",
+      "sequence": 1,
+      "data": {
+        "actor": "human-operator-1",
+        "action": "approve_authorization",
+        "outcome": "success",
+        "details": {
+          "token_id": "tok-00001",
+          "approver_authority_level": 5
+        }
+      },
+      "capsule_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "token_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000001",
+      "signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Requested",
+        "current_state": "Authorization_Granted"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000000003",
+      "event_type": "action_attempted",
+      "timestamp": "2026-01-19T00:00:10.000Z",
+      "sequence": 2,
+      "data": {
+        "actor": "ai-agent-alpha",
+        "action": "begin_execution",
+        "outcome": "success",
+        "details": {
+          "action": "update_user_preferences",
+          "user_id": "user-12345"
+        }
+      },
+      "capsule_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "token_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000002",
+      "signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Granted",
+        "current_state": "Execution_Started"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000000004",
+      "event_type": "state_transition",
+      "timestamp": "2026-01-19T00:00:12.000Z",
+      "sequence": 3,
+      "data": {
+        "actor": "system",
+        "action": "critical_decision_detected",
+        "outcome": "pending",
+        "details": {
+          "reason": "preference change affects privacy settings",
+          "requires_human_review": true
+        }
+      },
+      "capsule_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "token_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000003",
+      "signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa4",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Execution_Started",
+        "current_state": "Heart_Check"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000000005",
+      "event_type": "state_transition",
+      "timestamp": "2026-01-19T00:00:20.000Z",
+      "sequence": 4,
+      "data": {
+        "actor": "human-operator-1",
+        "action": "heart_aligned",
+        "outcome": "success",
+        "details": {
+          "review_comment": "Privacy implications acceptable for user benefit",
+          "emotional_alignment": "positive"
+        }
+      },
+      "capsule_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "token_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000004",
+      "signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa5",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Heart_Check",
+        "current_state": "Gut_Check"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000000006",
+      "event_type": "state_transition",
+      "timestamp": "2026-01-19T00:00:25.000Z",
+      "sequence": 5,
+      "data": {
+        "actor": "human-operator-1",
+        "action": "gut_aligned",
+        "outcome": "success",
+        "details": {
+          "intuitive_assessment": "feels right",
+          "tacit_concerns": "none"
+        }
+      },
+      "capsule_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "token_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000005",
+      "signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa6",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Gut_Check",
+        "current_state": "Execution_Completed"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000000007",
+      "event_type": "action_completed",
+      "timestamp": "2026-01-19T00:00:30.000Z",
+      "sequence": 6,
+      "data": {
+        "actor": "ai-agent-alpha",
+        "action": "complete_execution",
+        "outcome": "success",
+        "details": {
+          "preferences_updated": true,
+          "verification": "passed"
+        }
+      },
+      "capsule_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "token_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000006",
+      "signature": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa7",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Execution_Completed",
+        "current_state": "Execution_Completed"
+      },
+      "metadata": {
+        "tags": ["success", "full-flow", "all-checks-passed"]
+      }
+    }
+  ],
+  "metadata": {
+    "total_events": 7,
+    "trace_valid": true,
+    "chain_integrity": "verified",
+    "final_state": "Execution_Completed"
+  }
+}

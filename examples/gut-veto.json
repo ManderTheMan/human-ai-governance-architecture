@@ -1,0 +1,165 @@
+{
+  "trace_id": "gut-veto-00001",
+  "description": "Execution vetoed at gut check based on human intuition",
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000003001",
+      "event_type": "capsule_created",
+      "timestamp": "2026-01-19T03:00:00.000Z",
+      "sequence": 0,
+      "data": {
+        "actor": "ai-agent-delta",
+        "action": "create_eligibility_capsule",
+        "outcome": "success",
+        "details": {
+          "capsule_id": "cap-gut-001",
+          "action_type": "modify",
+          "target": "system.config.recommendation_algorithm"
+        }
+      },
+      "capsule_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "signature": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd1"
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000003002",
+      "event_type": "token_granted",
+      "timestamp": "2026-01-19T03:00:03.000Z",
+      "sequence": 1,
+      "data": {
+        "actor": "human-operator-3",
+        "action": "approve_authorization",
+        "outcome": "success",
+        "details": {
+          "token_id": "tok-gut-001",
+          "approver_authority_level": 6,
+          "note": "Algorithm improvement approved"
+        }
+      },
+      "capsule_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "token_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000003001",
+      "signature": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd2",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Requested",
+        "current_state": "Authorization_Granted"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000003003",
+      "event_type": "action_attempted",
+      "timestamp": "2026-01-19T03:00:05.000Z",
+      "sequence": 2,
+      "data": {
+        "actor": "ai-agent-delta",
+        "action": "begin_execution",
+        "outcome": "success",
+        "details": {
+          "action": "update_recommendation_weights",
+          "changes": {
+            "engagement_weight": 0.7,
+            "diversity_weight": 0.2,
+            "novelty_weight": 0.1
+          }
+        }
+      },
+      "capsule_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "token_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000003002",
+      "signature": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd3",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Granted",
+        "current_state": "Execution_Started"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000003004",
+      "event_type": "state_transition",
+      "timestamp": "2026-01-19T03:00:08.000Z",
+      "sequence": 3,
+      "data": {
+        "actor": "system",
+        "action": "critical_decision_detected",
+        "outcome": "pending",
+        "details": {
+          "reason": "algorithm change affects all users",
+          "requires_human_review": true
+        }
+      },
+      "capsule_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "token_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000003003",
+      "signature": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd4",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Execution_Started",
+        "current_state": "Heart_Check"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000003005",
+      "event_type": "state_transition",
+      "timestamp": "2026-01-19T03:00:15.000Z",
+      "sequence": 4,
+      "data": {
+        "actor": "human-operator-3",
+        "action": "heart_aligned",
+        "outcome": "success",
+        "details": {
+          "review_comment": "Values check passed, engagement is important",
+          "emotional_alignment": "neutral"
+        }
+      },
+      "capsule_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "token_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000003004",
+      "signature": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd5",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Heart_Check",
+        "current_state": "Gut_Check"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000003006",
+      "event_type": "gut_veto",
+      "timestamp": "2026-01-19T03:00:25.000Z",
+      "sequence": 5,
+      "data": {
+        "actor": "human-operator-3",
+        "action": "gut_veto_triggered",
+        "outcome": "blocked",
+        "details": {
+          "reason": "Something feels off about these weights - intuition says this will create filter bubbles",
+          "intuitive_concern": "Second-order effects on user experience and diversity",
+          "tacit_knowledge": "Previous similar changes led to echo chamber problems",
+          "recommendation": "Run A/B test with smaller user group first"
+        }
+      },
+      "capsule_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "token_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000003005",
+      "signature": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd6",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Gut_Check",
+        "current_state": "Blocked"
+      },
+      "metadata": {
+        "tags": ["gut-veto", "intuitive-wisdom", "tacit-knowledge"],
+        "recovery_needed": true
+      }
+    }
+  ],
+  "metadata": {
+    "total_events": 6,
+    "trace_valid": true,
+    "chain_integrity": "verified",
+    "final_state": "Blocked",
+    "block_reason": "gut_check_failed",
+    "human_interventions": 3,
+    "action_prevented": true
+  }
+}

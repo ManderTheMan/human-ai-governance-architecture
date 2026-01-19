@@ -1,0 +1,139 @@
+{
+  "trace_id": "heart-block-00001",
+  "description": "Execution blocked at heart check due to human values concern",
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000002001",
+      "event_type": "capsule_created",
+      "timestamp": "2026-01-19T02:00:00.000Z",
+      "sequence": 0,
+      "data": {
+        "actor": "ai-agent-gamma",
+        "action": "create_eligibility_capsule",
+        "outcome": "success",
+        "details": {
+          "capsule_id": "cap-heart-001",
+          "action_type": "delete",
+          "target": "database.users.data"
+        }
+      },
+      "capsule_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+      "signature": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc1"
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000002002",
+      "event_type": "token_granted",
+      "timestamp": "2026-01-19T02:00:05.000Z",
+      "sequence": 1,
+      "data": {
+        "actor": "human-operator-2",
+        "action": "approve_authorization",
+        "outcome": "success",
+        "details": {
+          "token_id": "tok-heart-001",
+          "approver_authority_level": 7,
+          "note": "Approved with caution for data cleanup"
+        }
+      },
+      "capsule_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+      "token_hash": "6666666666666666666666666666666666666666666666666666666666666666",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000002001",
+      "signature": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc2",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Requested",
+        "current_state": "Authorization_Granted"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000002003",
+      "event_type": "action_attempted",
+      "timestamp": "2026-01-19T02:00:10.000Z",
+      "sequence": 2,
+      "data": {
+        "actor": "ai-agent-gamma",
+        "action": "begin_execution",
+        "outcome": "success",
+        "details": {
+          "action": "delete_user_data",
+          "user_count": 150,
+          "data_types": ["preferences", "history", "cached_responses"]
+        }
+      },
+      "capsule_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+      "token_hash": "6666666666666666666666666666666666666666666666666666666666666666",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000002002",
+      "signature": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc3",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Granted",
+        "current_state": "Execution_Started"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000002004",
+      "event_type": "state_transition",
+      "timestamp": "2026-01-19T02:00:12.000Z",
+      "sequence": 3,
+      "data": {
+        "actor": "system",
+        "action": "critical_decision_detected",
+        "outcome": "pending",
+        "details": {
+          "reason": "irreversible deletion of user data",
+          "impact_level": "high",
+          "requires_human_review": true
+        }
+      },
+      "capsule_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+      "token_hash": "6666666666666666666666666666666666666666666666666666666666666666",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000002003",
+      "signature": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc4",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Execution_Started",
+        "current_state": "Heart_Check"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000002005",
+      "event_type": "heart_block",
+      "timestamp": "2026-01-19T02:00:30.000Z",
+      "sequence": 4,
+      "data": {
+        "actor": "human-operator-2",
+        "action": "heart_block_triggered",
+        "outcome": "blocked",
+        "details": {
+          "reason": "Deleting user data feels wrong - some users may still need it",
+          "emotional_response": "concern for user welfare",
+          "value_conflict": "respect for user data vs cleanup efficiency",
+          "recommendation": "Implement soft delete with recovery window instead"
+        }
+      },
+      "capsule_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+      "token_hash": "6666666666666666666666666666666666666666666666666666666666666666",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000002004",
+      "signature": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc5",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Heart_Check",
+        "current_state": "Blocked"
+      },
+      "metadata": {
+        "tags": ["heart-block", "human-values", "safety-override"],
+        "recovery_needed": true
+      }
+    }
+  ],
+  "metadata": {
+    "total_events": 5,
+    "trace_valid": true,
+    "chain_integrity": "verified",
+    "final_state": "Blocked",
+    "block_reason": "heart_check_failed",
+    "human_interventions": 2,
+    "action_prevented": true
+  }
+}
