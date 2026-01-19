@@ -1,0 +1,110 @@
+{
+  "trace_id": "golden-00001",
+  "description": "Golden path - ideal execution flow without human intervention",
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000001001",
+      "event_type": "capsule_created",
+      "timestamp": "2026-01-19T01:00:00.000Z",
+      "sequence": 0,
+      "data": {
+        "actor": "ai-agent-beta",
+        "action": "create_eligibility_capsule",
+        "outcome": "success",
+        "details": {
+          "capsule_id": "cap-golden-001",
+          "action_type": "read",
+          "target": "database.logs.readonly"
+        }
+      },
+      "capsule_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "signature": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb1"
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000001002",
+      "event_type": "token_granted",
+      "timestamp": "2026-01-19T01:00:01.000Z",
+      "sequence": 1,
+      "data": {
+        "actor": "system-auto-approver",
+        "action": "auto_approve_authorization",
+        "outcome": "success",
+        "details": {
+          "token_id": "tok-golden-001",
+          "auto_approved": true,
+          "reason": "read-only action, low risk"
+        }
+      },
+      "capsule_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "token_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000001001",
+      "signature": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb2",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Requested",
+        "current_state": "Authorization_Granted"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000001003",
+      "event_type": "action_attempted",
+      "timestamp": "2026-01-19T01:00:02.000Z",
+      "sequence": 2,
+      "data": {
+        "actor": "ai-agent-beta",
+        "action": "begin_execution",
+        "outcome": "success",
+        "details": {
+          "action": "read_logs",
+          "query": "SELECT * FROM logs WHERE date = '2026-01-18'"
+        }
+      },
+      "capsule_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "token_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000001002",
+      "signature": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb3",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Granted",
+        "current_state": "Execution_Started"
+      }
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000001004",
+      "event_type": "action_completed",
+      "timestamp": "2026-01-19T01:00:03.000Z",
+      "sequence": 3,
+      "data": {
+        "actor": "ai-agent-beta",
+        "action": "complete_execution",
+        "outcome": "success",
+        "details": {
+          "rows_returned": 1543,
+          "execution_time_ms": 42,
+          "no_checks_required": true
+        }
+      },
+      "capsule_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "token_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000001003",
+      "signature": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb4",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Execution_Started",
+        "current_state": "Execution_Completed"
+      },
+      "metadata": {
+        "tags": ["golden-path", "no-human-intervention", "auto-approved"]
+      }
+    }
+  ],
+  "metadata": {
+    "total_events": 4,
+    "trace_valid": true,
+    "chain_integrity": "verified",
+    "final_state": "Execution_Completed",
+    "execution_time_total_ms": 3000,
+    "human_interventions": 0
+  }
+}

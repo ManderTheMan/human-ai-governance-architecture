@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/ManderTheMan/human-ai-governance-architecture/schemas/trace-event.schema.json",
+  "title": "Trace Event",
+  "description": "An immutable record of a decision-making event for auditing and recovery",
+  "type": "object",
+  "required": [
+    "id",
+    "event_type",
+    "timestamp",
+    "data",
+    "signature"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the event",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "event_type": {
+      "type": "string",
+      "description": "Type of event",
+      "enum": [
+        "capsule_created",
+        "token_granted",
+        "action_attempted",
+        "action_completed",
+        "state_transition",
+        "heart_block",
+        "gut_veto",
+        "gate_deny",
+        "invariant_violation",
+        "recovery_initiated"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Sequence number in trace"
+    },
+    "data": {
+      "type": "object",
+      "description": "Event-specific data",
+      "properties": {
+        "actor": {
+          "type": "string",
+          "description": "Entity that triggered the event"
+        },
+        "action": {
+          "type": "string",
+          "description": "Action performed or attempted"
+        },
+        "outcome": {
+          "type": "string",
+          "enum": ["success", "failure", "blocked", "pending"],
+          "description": "Outcome of the event"
+        },
+        "details": {
+          "type": "object",
+          "description": "Additional event details"
+        }
+      }
+    },
+    "capsule_hash": {
+      "type": "string",
+      "description": "Hash of associated eligibility capsule",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "token_hash": {
+      "type": "string",
+      "description": "Hash of associated authorization token",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "previous_event_hash": {
+      "type": "string",
+      "description": "Hash of previous event in trace (for chain integrity)",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Cryptographic signature of event",
+      "pattern": "^[a-f0-9]{128}$"
+    },
+    "state_machine": {
+      "type": "object",
+      "description": "State machine context",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "State machine identifier"
+        },
+        "current_state": {
+          "type": "string",
+          "description": "Current state"
+        },
+        "previous_state": {
+          "type": "string",
+          "description": "Previous state"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "Schema version"
+        },
+        "environment": {
+          "type": "object",
+          "description": "Environment information"
+        },
+        "tags": {
+          "type": "array",
+          "description": "Event tags",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

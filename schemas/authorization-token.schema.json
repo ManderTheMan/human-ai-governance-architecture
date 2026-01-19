@@ -1,0 +1,140 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/ManderTheMan/human-ai-governance-architecture/schemas/authorization-token.schema.json",
+  "title": "Authorization Token",
+  "description": "A token representing granted permission for a specific action",
+  "type": "object",
+  "required": [
+    "id",
+    "capsule_hash",
+    "approver",
+    "granted_at",
+    "expires_at",
+    "signature"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the token",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "capsule_hash": {
+      "type": "string",
+      "description": "Hash of the associated eligibility capsule",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "approver": {
+      "type": "object",
+      "description": "Entity that approved the authorization",
+      "required": ["id", "type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Approver identifier"
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of approver",
+          "enum": ["human", "ai", "system", "multisig"]
+        },
+        "authority_level": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "Authority level of approver"
+        }
+      }
+    },
+    "granted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When authorization was granted"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When authorization expires"
+    },
+    "scope": {
+      "type": "object",
+      "description": "Scope of authorization",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "description": "Allowed actions",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resources": {
+          "type": "array",
+          "description": "Accessible resources",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "description": "Cryptographic signature of token",
+      "pattern": "^[a-f0-9]{128}$"
+    },
+    "chain": {
+      "type": "object",
+      "description": "Chain of authorization for delegation",
+      "properties": {
+        "parent_token_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "delegation_depth": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "description": "Usage tracking",
+      "properties": {
+        "use_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of times token has been used"
+        },
+        "max_uses": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum allowed uses"
+        },
+        "last_used_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last usage timestamp"
+        }
+      }
+    },
+    "revoked": {
+      "type": "boolean",
+      "description": "Whether token has been revoked",
+      "default": false
+    },
+    "revocation": {
+      "type": "object",
+      "description": "Revocation details if revoked",
+      "properties": {
+        "revoked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "revoked_by": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

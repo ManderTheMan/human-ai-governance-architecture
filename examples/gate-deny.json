@@ -1,0 +1,67 @@
+{
+  "trace_id": "gate-deny-00001",
+  "description": "Authorization denied at gate before execution begins",
+  "version": "1.0.0",
+  "events": [
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000004001",
+      "event_type": "capsule_created",
+      "timestamp": "2026-01-19T04:00:00.000Z",
+      "sequence": 0,
+      "data": {
+        "actor": "ai-agent-epsilon",
+        "action": "create_eligibility_capsule",
+        "outcome": "success",
+        "details": {
+          "capsule_id": "cap-deny-001",
+          "action_type": "execute",
+          "target": "system.admin.user_management.delete_all"
+        }
+      },
+      "capsule_hash": "9999999999999999999999999999999999999999999999999999999999999999",
+      "signature": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1"
+    },
+    {
+      "id": "0000000000000000000000000000000000000000000000000000000000004002",
+      "event_type": "gate_deny",
+      "timestamp": "2026-01-19T04:00:02.000Z",
+      "sequence": 1,
+      "data": {
+        "actor": "system-gatekeeper",
+        "action": "deny_authorization",
+        "outcome": "blocked",
+        "details": {
+          "denial_reason": "Action violates safety policy",
+          "policy_violated": "POLICY-001: Mass deletion requires offline approval",
+          "risk_level": "critical",
+          "authority_required": 10,
+          "authority_available": 0,
+          "additional_info": "This action could delete all users - requires board approval"
+        }
+      },
+      "capsule_hash": "9999999999999999999999999999999999999999999999999999999999999999",
+      "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000004001",
+      "signature": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee2",
+      "state_machine": {
+        "id": "asm-1",
+        "previous_state": "Authorization_Requested",
+        "current_state": "Denied"
+      },
+      "metadata": {
+        "tags": ["gate-deny", "policy-violation", "critical-risk"],
+        "severity": "critical",
+        "requires_escalation": true
+      }
+    }
+  ],
+  "metadata": {
+    "total_events": 2,
+    "trace_valid": true,
+    "chain_integrity": "verified",
+    "final_state": "Denied",
+    "denial_reason": "insufficient_authority",
+    "human_interventions": 0,
+    "action_prevented": true,
+    "execution_never_started": true
+  }
+}
