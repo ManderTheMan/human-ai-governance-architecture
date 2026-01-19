@@ -113,7 +113,3 @@ See [CHANGELOG.md](CHANGELOG.md) for version history and evolution of thinking.
 - 💼 [LinkedIn](https://www.linkedin.com/in/alexander-campbell-682489363/)
 
 Building toward augmented intelligence through human-AI collaboration.
-
-## License
-
-MIT License — See [LICENSE](LICENSE) for details.
