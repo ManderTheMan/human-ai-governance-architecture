@@ -1,0 +1,43 @@
+Finishing this structure then will begin running through and revising everything again before continuing building
+
+---
+
+human-ai-governance-architecture/
+│
+├── [README.md](http://readme.md/)                 # Overview (see below)
+├── [CHANGELOG.md](http://changelog.md/)              # Version history (your RIT learning record)
+├── LICENSE                   # Choose one (MIT is common for open work)
+│
+├── docs/
+│   ├── [SPECIFICATION.md](http://specification.md/)      # Full system specification
+│   ├── [GLOSSARY.md](http://glossary.md/)           # Term definitions
+│   ├── [PHILOSOPHY.md](http://philosophy.md/)         # Design philosophy
+│   └── [METHODS.md](http://methods.md/)            # RIT and other methods
+│
+├── schemas/
+│   ├── eligibility-capsule.schema.json    # EC-1
+│   ├── authorization-token.schema.json    # Token model
+│   └── trace-event.schema.json            # Trace format
+│
+├── state-machines/
+│   ├── asm-1.yaml            # Authorization State Machine
+│   └── [asm-1.md](http://asm-1.md/)              # Human-readable version
+│
+├── examples/
+│   ├── wet-1-trace.json      # Worked Example Trace
+│   ├── golden-path.json      # Test trace
+│   ├── heart-block.json      # Test trace
+│   └── [README.md](http://readme.md/)             # Explains the examples
+│
+├── oracle/
+│   ├── [invariants.py](http://invariants.py/)         # Validation oracle
+│   ├── test_traces.py        # Tests
+│   └── [README.md](http://readme.md/)             # How to run
+│
+└── diagrams/
+├── [architecture-overview.md](http://architecture-overview.md/)    # Mermaid diagrams
+├── [execution-flow.md](http://execution-flow.md/)
+└── [recovery-protocol.md](http://recovery-protocol.md/)
+
+---
+
